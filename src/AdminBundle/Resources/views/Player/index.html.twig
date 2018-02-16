@@ -1,0 +1,36 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+ {% block menu %} {% include 'AdminBundle:Default:menu.html.twig' %} {% endblock %}
+
+{% block body %}
+    <h1>Players list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>{{ "entity.label.id"|trans }}</th>
+                <th>{{ "entity.label.name"|trans }}</th>
+                <th>{{ "th.label.action"|trans }}</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for player in players %}
+            <tr>
+                <td>{{ player.id }}</td>
+                <td>{{ player.username }}</td>
+                <td> <a href="{{ path('player_edit', { 'id': player.id }) }}">edit</a> </td>
+                <td><a href="{{ path('homepage', { '_switch_user' : player.username}) }}">interpreter</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+ {% endblock %} 
+ 
+{% block aside %}          
+
+    <ul>
+        <li>
+            <a href="{{ path('player_new') }}">Create a new player</a>
+        </li>
+    </ul>
+{% endblock %}

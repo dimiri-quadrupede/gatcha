@@ -1,0 +1,53 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+ {% block menu %} {% include 'GameBundle::menu.html.twig' %} {% endblock %}
+ 
+ {% block title %} Portail {% endblock %}
+
+ 
+{% block body %}
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Name</th>
+                <td colspan='2'>{{ portail.name }}</td>
+            </tr>
+            <tr>
+                <th>debut</th>
+                <td>{{ portail.startedAt|date('d/m/Y') }}</td>
+            </tr>
+            <tr>
+                <th>fin</th>
+                <td></td>
+                <td>{{ portail.endedAt|date('d/m/Y') }}</td>
+            </tr>
+
+        {% for personnage in portail.personnages %}
+    
+            <tr>
+                <td><a href="{#{ path('portail_show', { 'id': portail.id }) }#}">{{ personnage.name }}</a></td>
+                <td>{{ portail.id }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{#{ path('portail_show', { 'id': portail.id }) }#}">show</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+            
+        {% endfor %}   
+        
+            <tr>
+                <td><a href="{{ path('invocation_portail_mono', { 'id': portail.id }) }}">MONO</a></td>
+                <td>-</td>
+                <td>
+                    <a href="{{ path('invocation_portail_many', { 'id': portail.id }) }}">MULTI</a>
+                </td>
+            </tr>        
+         </tbody>
+    </table>
+       
+
+{% endblock %}

@@ -1,0 +1,31 @@
+layout.logged_in_as: 'Hello, %username% !'
+layout.logged_out: Identification
+layout.logout: '[x]'
+layout.show: '<o>'
+layout.change: MDP
+layout.login: Login
+layout.registration: Inscription
+layout.resetting: Password
+layout.admin.portail: Portails
+layout.admin.personnage: Personnages
+layout.admin.rarete: Raretes
+layout.admin.zone: Zones
+layout.admin.epreuve: Epreuves
+layout.admin.item: Items
+layout.admin.player: Joueurs
+layout.game.portail: Portails
+layout.game.box: Box
+form.btn.edit: Enregistrer
+form.btn.delete: '(x)'
+list.link.back: '<<'
+list.link.show: '<o>'
+list.link.edit: '[/]'
+list.link.new: '[+]'
+registration.confirmed.title: 'Enregistrement terminé'
+registration.register.title: Enregistrement
+security.login.title: Login
+entity.label.name: Nom
+entity.label.ranked: Rang
+entity.label.id: ID
+
+th.label.action: Actions

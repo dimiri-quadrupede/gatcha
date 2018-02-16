@@ -1,0 +1,6 @@
+            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                
+                <a href="{{ path('invocation_portail_list') }}">{{ 'layout.game.portail'|trans }}</a> -
+                <a href="{{ path('player_box_list') }}">{{ 'layout.game.box'|trans }}</a> -
+    
+            {% endif %}    

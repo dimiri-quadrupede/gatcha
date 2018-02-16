@@ -1,0 +1,37 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+{% block menu %}{% include 'GameBundle::menu.html.twig' %}{% endblock %}
+
+{% block title %}Box{% endblock %}
+
+{% block aside %}
+        <a href="{{ path( 'player_box_function', { 'function' : 'entrainement' } ) }}" >entrainement</a><br/> - 
+    <a href="{{ path( 'player_equipes' ) }}" >equipes</a><br/> - 
+
+{% endblock %}
+
+{% block body %}
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Id</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for box in boxes %}
+            <tr>
+                <td>{{ box.id }}</td>
+                <td><a href="">{{ box.personnage.name }}</a></td>
+                <td>{{ box.personnage.id }}</td>
+                <td>
+                    {% if function == "entrainement" %}<a href="">entrainement</a>{% endif %}
+                    {% if function == "select" %}<a href="{{ path('player_team_add',{ 'id' : box.id , 'ranked' : ranked , 'poste': poste }) }}">select</a>{% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

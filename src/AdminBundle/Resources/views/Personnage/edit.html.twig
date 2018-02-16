@@ -1,0 +1,28 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+ {% block menu %} {% include 'AdminBundle:Default:menu.html.twig' %} {% endblock %}
+
+  {% block title %}{{ "title.edit.entity"|trans({'%content%': personnage.name }) }} {% endblock %}  
+
+{% block body %}
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <input type="submit" value="Edit" />
+    {{ form_end(form) }}
+ {% endblock %} 
+ 
+{% block aside %}          
+
+    <ul>
+        <li>
+            <a href="{{ path('personnage_index') }}">{{ "list.link.back"|trans }}</a>
+        </li>
+        {% if delete_form is not null %}
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+        {% endif %}
+    </ul>
+{% endblock %}

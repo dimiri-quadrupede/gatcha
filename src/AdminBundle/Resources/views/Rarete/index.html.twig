@@ -1,0 +1,45 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+ {% block menu %} {% include 'AdminBundle:Default:menu.html.twig' %} {% endblock %}
+
+ {% block title %}{{ "title.list.entity"|trans({'%entity%' : 'Rarete'}) }} {% endblock %}
+
+{% block body %}
+    <table>
+        <thead>
+            <tr>
+                <th>{{ "entity.label.id"|trans }}</th>
+                <th>{{ "entity.label.name"|trans }}</th>
+                <th>{{ "entity.label.code"|trans }}</th>
+                <th>{{ "entity.label.ranked"|trans }}</th>
+                <th>{{ "th.label.action"|trans }}</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for x , rarete in raretes %}
+            <tr>
+                <td><a href="{{ path('rarete_edit', { 'id': rarete.id }) }}">{{ rarete.id }}</a></td>
+                <td><a href="{{ path('rarete_edit', { 'id': rarete.id }) }}">{{ rarete.nom }}</a></td>
+                <td><a href="{{ path('rarete_edit', { 'id': rarete.id }) }}">{{ rarete.code }}</a></td>
+                <td><a href="{{ path('rarete_edit', { 'id': rarete.id }) }}">{{ rarete.ranked }}</a></td>
+                <td><a href="{{ path('rarete_edit', { 'id': rarete.id }) }}">{{ "list.link.edit"|trans({'%content%': rarete.nom }) }}</a></td>
+                <td>
+                {% if delete_form[x] is defined and delete_form[x] is not null %}    
+                        {{ form_start(delete_form[x]) }}
+                            <input type="submit" value="Delete">
+                        {{ form_end(delete_form[x]) }}
+                {% endif %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+ {% endblock %} 
+ 
+{% block aside %}          
+
+    <ul>
+        <li>
+            <a href="{{ path('rarete_new') }}">{{ "list.link.new"|trans({'%entity%': 'Rarete'}) }}</a>
+        </li>
+    </ul>
+{% endblock %}

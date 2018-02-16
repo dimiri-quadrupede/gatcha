@@ -1,0 +1,41 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+ {% block menu %} {% include 'AdminBundle:Default:menu.html.twig' %} {% endblock %}
+
+{% block title %}{{ "title.show.entity"|trans({'%content%': epreuve.name }) }} {% endblock %}  
+
+{% block body %}
+    <table>
+        <tbody>
+            <tr>
+                <th>{{ "entity.label.name"|trans }}</th>
+                <td>{{ epreuve.name }}</td>
+            </tr>
+            <tr>
+                <th>{{ "entity.label.ranked"|trans }}</th>
+                <td>{{ epreuve.ranked }}</td>
+            </tr>
+            <tr>
+                <th>{{ "entity.label.id"|trans }}</th>
+                <td>{{ epreuve.id }}</td>
+            </tr>
+        </tbody>
+    </table>
+ {% endblock %} 
+ 
+{% block aside %}          
+
+    <ul>
+        <li>
+            <a href="{{ path('epreuve_index') }}">{{ "list.link.back"|trans }}</a>
+        </li>
+        <li>
+            <a href="{{ path('epreuve_edit', { 'id': epreuve.id }) }}">{{ "list.link.edit"|trans({'%content%': epreuve.name }) }}</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="{{ "form.btn.delete"|trans({'%content%': epreuve.name }) }}">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

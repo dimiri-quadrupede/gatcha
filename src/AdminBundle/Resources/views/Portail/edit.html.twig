@@ -1,0 +1,42 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+ {% block menu %} {% include 'AdminBundle:Default:menu.html.twig' %} {% endblock %}
+
+ {% block title %}{{ "title.edit.entity"|trans({'%content%': portail.name }) }} {% endblock %}  
+
+{% block body %}
+    {{ form_start(edit_form) }}
+        {{ form_widget(edit_form) }}
+        <input type="submit" value="Edit" />
+    {{ form_end(edit_form) }}
+ {% endblock %} 
+ 
+{% block aside %}          
+
+    <ul>
+        <li>
+            <a href="{{ path('portail_index') }}">{{ "list.link.back"|trans }}</a>
+        </li>
+    {% if delete_form is not null %}    
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    {% endif %}
+    </ul>
+ {% endblock %} 
+ 
+{% block script %}          
+    
+    <script>
+        
+    $(document).ready(function() {
+        // you may need to change this code if you are not using Bootstrap Datepicker
+        $('.js-datepicker').datepicker({
+            format: 'yyyy-mm-dd'
+        });
+    });
+        
+    </script>
+{% endblock %}

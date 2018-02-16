@@ -1,0 +1,55 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+ {% block menu %} {% include 'GameBundle::menu.html.twig' %} {% endblock %}
+
+  {% block title %} Portail {% endblock %}
+
+
+{% block body %}
+    
+{% if personnage is not null %}
+  <table>
+        <tbody>
+            <tr>
+                <th>Name</th>
+                <td>{{ personnage.name }}</td>
+            </tr>
+            <tr>
+                <th>Attaque</th>
+                <td>{{ personnage.attaque }}</td>
+            </tr>
+            <tr>
+                <th>Defense</th>
+                <td>{{ personnage.defense }}</td>
+            </tr>
+            <tr>
+                <th>Vie</th>
+                <td>{{ personnage.vie }}</td>
+            </tr>
+            <tr>
+                <th>rarete</th>
+                <td>{{ personnage.rarete }}</td>
+            </tr>
+        </tbody>
+    </table>
+        {% endif %}
+ {% endblock %}   
+ 
+{% block aside %}          
+    <ul>
+        <!--li>
+            <a href="{{ path('portail_index') }}">Back to the list</a>
+        </li-->
+        
+        {% if invocation.multi == true and invocation.personnages|length <= 5 %}
+            
+            <a href='{{path ('invocation_portail_multi',{ 'id' : invocation.id })}}'>SUIVANT</a>
+                        
+        {% else %}
+            
+            <a href='{{path ('invocation_portail_end',{ 'id' : invocation.id })}}'>FIN</a>
+            
+        {% endif %}
+        
+    </ul>
+{% endblock %}

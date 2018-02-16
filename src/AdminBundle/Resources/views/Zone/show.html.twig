@@ -1,0 +1,40 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+ {% block menu %} {% include 'AdminBundle:Default:menu.html.twig' %} {% endblock %}
+
+{% block title %}Zone{% endblock %}    
+ 
+{% block body %}
+
+    <h1>Zone</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>{{ "entity.label.name"|trans }}</th>
+                <td>{{ zone.nom }}</td>
+            </tr>
+            <tr>
+                <th>{{ "entity.label.id"|trans }}</th>
+                <td>{{ zone.id }}</td>
+            </tr>
+        </tbody>
+    </table>
+ {% endblock %} 
+ 
+{% block aside %}          
+
+    <ul>
+        <li>
+            <a href="{{ path('zone_index') }}">{{ "list.link.back"|trans }}</a>
+        </li>
+        <li>
+            <a href="{{ path('zone_edit', { 'id': zone.id }) }}">{{ "list.link.edit"|trans({'%content%': zone.nom }) }}</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="{{ "form.btn.delete"|trans({'%content%': epreuve.name }) }}">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

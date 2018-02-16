@@ -1,0 +1,38 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+ {% block menu %} {% include 'AdminBundle:Default:menu.html.twig' %} {% endblock %}
+
+
+{% block title %}{{ "title.list.entity"|trans({'entity' : 'Epreuve'}) }} {% endblock %}  
+
+{% block body %}
+    <table>
+        <thead>
+            <tr>
+                <th>{{ "entity.label.name"|trans }}</th>
+                <th>{{ "entity.label.ranked"|trans }}</th>
+                <th>{{ "entity.label.id"|trans }}</th>
+                <th>{{ "th.label.action"|trans }}</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for epreuve in epreuves %}
+            <tr>
+                <td><a href="{{ path('epreuve_show', { 'id': epreuve.id }) }}">{{ epreuve.name }}</a></td>
+                <td>{{ epreuve.ranked }}</td>
+                <td>{{ epreuve.id }}</td>
+                <td><a href="{{ path('epreuve_edit', { 'id': epreuve.id }) }}">{{ "list.link.edit"|trans({'%content%': epreuve.name }) }}</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+ {% endblock %}    
+ 
+{% block aside %}          
+
+    <ul>
+        <li>
+            <a href="{{ path('epreuve_new') }}">{{ "list.link.new"|trans({'%entity%': 'Epreuve'}) }}</a>
+        </li>
+    </ul>
+{% endblock %}

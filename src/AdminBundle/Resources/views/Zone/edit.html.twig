@@ -1,0 +1,121 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+ {% block menu %} {% include 'AdminBundle:Default:menu.html.twig' %} {% endblock %}
+
+ {% block title %}Zone edit{% endblock %}
+
+{% block body %}
+    {{ form_start(edit_form) }}
+        {{ form_widget(edit_form.nom) }}
+        
+          <ul id="epreuves-fields-list"
+        data-prototype="{{ form_widget(edit_form.epreuves.vars.prototype)|e }}"
+        data-widget-tags="{{ '<li></li>'|e }}">
+    {% for emailField in edit_form.epreuves %}
+        <li>
+            {{ form_errors(emailField) }}
+            {{ form_widget(emailField) }}
+        </li>
+    {% endfor %}
+    </ul>
+         {% if zone.id is not null %}
+            <a href="{{ path('epreuve_add',{ 'zone' : zone.id }) }}" >Add another epreuves</a><br/>
+		{% endif %}
+        <!-- class="add-another-collection-widget" data-list="#epreuves-fields-list"-->
+        
+        <input type="submit" value="Edit" />
+    {{ form_end(edit_form) }}
+ {% endblock %}   
+ 
+{% block aside %}          
+
+    <ul>
+        <li>
+            <a href="{{ path('zone_index') }}">{{ "list.link.back"|trans }}</a>
+        </li>
+        {% if delete_form is not null %}
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+        {% endif %}
+    </ul>
+{% endblock %}
+
+{% block off %}
+
+    <script>
+/**                var emailList = $('#app-version-list');
+
+                console.log("emailCount(0):"+$('#app-version-list div.app.row').size());
+                console.log("emailCount(1):"+$('#app-version-list div.app.row').length);
+
+                if (self.emailCount === null)
+                {
+                    self.emailCount = ($('#app-version-list div.app.row').size()) ;
+                }
+
+                console.log("emailCount(->):"+self.emailCount);
+                // grab the prototype template
+                var newWidget = emailList.attr('data-prototype');
+                // replace the "__name__" used in the id and name of the prototype
+                // with a number that's unique to your emails
+                // end name attribute looks like name="contact[emails][2]"
+                newWidget = newWidget.replace(/__name__/g, self.emailCount);
+                self.emailCount++;
+
+                // create a new list element and add it to the list
+                var newLi = $('<div class="app row"></div>').html(newWidget);
+                newLi.appendTo(emailList);
+ */               
+        $(document).ready(function () {
+    $('.add-another-collection-widget').click(function (e) {
+        e.preventDefault();
+        var name = $(this).attr('data-list');
+        
+        console.log(name);
+        
+       // console.log("emailCount(0):"+$(name+' li').size());
+        //console.log("emailCount(1):"+$(name+' li').length);   
+        
+        var list = $(name);
+        
+        console.log("emailCount(0):"+list.size());
+        console.log("emailCount(1):"+list.length);           
+        console.log(list);
+        
+        // Try to find the counter of the list
+        var counter = list.data('widget-counter') | list.children().length;
+        // If the counter does not exist, use the length of the list
+        if (!counter) { counter = list.children().length; }
+
+        // grab the prototype template
+        var newWidget = list.attr('data-prototype');
+        // replace the "__name__" used in the id and name of the prototype
+        // with a number that's unique to your emails
+        // end name attribute looks like name="contact[emails][2]"
+        
+        console.log(newWidget);
+        
+        newWidget = newWidget.replace(/__name__/g, counter);
+        
+        console.log(newWidget);
+        
+        // Increase the counter
+        counter++;
+        // And store it, the length cannot be used if deleting widgets is allowed
+        list.data(' widget-counter', counter);
+
+        // create a new list element and add it to the list
+        var newElem = $(list.attr('data-widget-tags')).html(newWidget);
+        newElem.appendTo(list);
+        
+        newElem.find("input[type=hidden]").val({{ zone.id }});
+    });
+});
+
+        
+    </script>
+        
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+{% block body %}
+    <h1>Portails list</h1>
+
+    <a href="{{ path( 'player_box_function', { 'function' : 'entrainement' } ) }}" >entrainement</a> - 
+    <a href="{{ path( 'player_equipes' ) }}" >equipes</a> - 
+
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Id</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+{% for i in 1..max_team %}
+            {% if members[i] is defined %}
+                <tr>
+                    <td><a href="{{ path( 'player_team_select', { 'poste' : i, 'ranked' : team.ranked  } ) }}">add</a></td>
+                    <td>{{ members[i].ranked }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td><a href="{{ path( 'player_team_select', { 'poste' : i , 'ranked' : team.ranked } ) }}">add</a></td>
+                </tr>
+            {% endif %}
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

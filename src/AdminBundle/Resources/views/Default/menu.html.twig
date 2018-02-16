@@ -1,0 +1,12 @@
+
+{% if is_granted('ROLE_ADMIN') %}
+                
+                <a href="{{ path('portail_index') }}">{{ 'layout.admin.portail'|trans }}</a> -
+                <a href="{{ path('personnage_index') }}">{{ 'layout.admin.personnage'|trans }}</a> -
+                <a href="{{ path('rarete_index') }}">{{ 'layout.admin.rarete'|trans }}</a> -
+                <a href="{{ path('zone_index') }}">{{ 'layout.admin.zone'|trans }}</a> -
+                <!--a href="{{ path('epreuve_index') }}">{{ 'layout.admin.epreuve'|trans }}</a><br/>-->
+                <a href="{{ path('item_index') }}">{{ 'layout.admin.item'|trans }}</a> -
+                <a href="{{ path('player_index') }}">{{ 'layout.admin.player'|trans }}</a> -
+{% endif %}
+                

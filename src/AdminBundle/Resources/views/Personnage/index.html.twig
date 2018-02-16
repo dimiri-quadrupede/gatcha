@@ -1,0 +1,48 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+{% block title %}Personnages list{% endblock %}
+
+ {% block menu %} {% include 'AdminBundle:Default:menu.html.twig' %} {% endblock %}
+
+{% block body %}
+    <table>
+        <thead>
+            <tr>
+                <th>{{ "entity.label.id"|trans }}</th>
+                <th>{{ "entity.label.name"|trans }}</th>
+                <!--th>Attaque</th>
+                <th>Defense</th>
+                <th>Vie</th-->
+                <th colspan="2">{{ "th.label.action"|trans }}</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for x , personnage in personnages %}
+            <tr>
+                <td><a href="{{ path('personnage_edit', { 'slug': personnage.slug }) }}">{{ personnage.id }}</a></td>
+                <td><a href="{{ path('personnage_edit', { 'slug': personnage.slug }) }}">{{ personnage.name }}</a></td>
+                <!--td><a href="{{ path('personnage_edit', { 'slug': personnage.slug }) }}">{{ personnage.attaque }}</a></td>
+                <td><a href="{{ path('personnage_edit', { 'slug': personnage.slug }) }}">{{ personnage.defense }}</a></td>
+                <td><a href="{{ path('personnage_edit', { 'slug': personnage.slug }) }}">{{ personnage.vie }}</a></td-->
+                <td><a href="{{ path('personnage_edit', { 'slug': personnage.slug }) }}">edit</a></td>
+                <td>
+                {% if delete_form[x] is defined and delete_form[x] is not null %}    
+                        {{ form_start(delete_form[x]) }}
+                            <input type="submit" value="Delete">
+                        {{ form_end(delete_form[x]) }}
+                {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+ {% endblock %} 
+ 
+{% block aside %}          
+
+    <ul>
+        <li>
+            <a href="{{ path('personnage_new') }}">{{ "list.link.new"|trans({'%entity%': 'Personnage'}) }}</a>
+        </li>
+    </ul>
+{% endblock %}

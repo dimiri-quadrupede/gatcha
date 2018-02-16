@@ -1,0 +1,44 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+ {% block menu %} {% include 'GameBundle::menu.html.twig' %} {% endblock %}
+
+    {% block title %}Portail{% endblock %}
+
+{% block body %}
+    <table>
+        <tbody>
+            <tr>
+                <th>Name</th>
+                <td>{{ portail.name }}</td>
+            </tr>
+            <tr>
+                <th>debut</th>
+                <td>{{ portail.startedAt|date('d/m/Y') }}</td>
+            </tr>
+            <tr>
+                <th>fin</th>
+                <td>{{ portail.endedAt|date('d/m/Y') }}</td>
+            </tr>
+            <tr>
+                <th>multi</th>
+                <td>{{ invocation.multi }}</td>
+            </tr>
+            <tr>
+                <th>multi</th>
+                <td>{{ invocation.droped }}</td>
+                <td>{{ personnages|length }}</td>
+            </tr>        
+            {% for perso in invocation.personnages %}
+    
+            <tr>
+                <td><a href="">{{ perso.name }}</a></td>
+                <td>{{ perso.id }}</td>
+            </tr>
+            
+        {% endfor %}   
+        
+         </tbody>
+    </table>
+       
+  
+{% endblock %}

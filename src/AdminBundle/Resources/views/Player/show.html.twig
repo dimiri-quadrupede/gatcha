@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+ {% block menu %} {% include 'AdminBundle:Default:menu.html.twig' %} {% endblock %}
+
+
+{% block body %}
+    <h1>Player</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Experience</th>
+                <td>{{ player.experience }}</td>
+            </tr>
+            <tr>
+                <th>Vie</th>
+                <td>{{ player.vie }}</td>
+            </tr>
+            <tr>
+                <th>Endurance</th>
+                <td>{{ player.endurance }}</td>
+            </tr>
+            <tr>
+                <th>{{ "entity.label.id"|trans }}</th>
+                <td>{{ player.id }}</td>
+            </tr>
+        </tbody>
+    </table>
+ {% endblock %} 
+ 
+{% block aside %}          
+
+    <ul>
+        <li>
+            <a href="{{ path('player_index') }}">{{ "list.link.back"|trans }}</a>
+        </li>
+        <li>
+            <a href="{{ path('player_edit', { 'id': player.id }) }}">{{ "list.link.edit"|trans({'%content%': player.username }) }}</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="{{ "form.btn.delete"|trans({'%content%': epreuve.name }) }}">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

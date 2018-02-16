@@ -1,0 +1,37 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+ {% block menu %} {% include 'AdminBundle:Default:menu.html.twig' %} {% endblock %}
+
+{% block body %}
+    <h1>Item</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>{{ "entity.label.name"|trans }}</th>
+                <td>{{ item.name }}</td>
+            </tr>
+            <tr>
+                <th>{{ "entity.label.id"|trans }}</th>
+                <td>{{ item.id }}</td>
+            </tr>
+        </tbody>
+    </table>
+ {% endblock %} 
+ 
+{% block aside %}          
+
+    <ul>
+        <li>
+            <a href="{{ path('item_index') }}">{{ "list.link.back"|trans }}</a>
+        </li>
+        <li>
+            <a href="{{ path('item_edit', { 'id': item.id }) }}">{{ "list.link.edit"|trans({'%content%': item.name }) }}</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="{{ "form.btn.delete"|trans({'%content%': item.name }) }}">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

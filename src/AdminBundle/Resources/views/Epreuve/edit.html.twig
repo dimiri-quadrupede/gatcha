@@ -1,0 +1,30 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+ {% block menu %} {% include 'AdminBundle:Default:menu.html.twig' %} {% endblock %}
+
+{% block title %}{{ "title.edit.entity"|trans({'%content%': epreuve.name }) }} {% endblock %}  
+
+{% block body %}
+
+    {{ form_start(edit_form) }}
+        {{ form_widget(edit_form) }}
+        <input type="submit" value="{{ "form.btn.edit"|trans({'%content%': epreuve.name }) }}" />
+    {{ form_end(edit_form) }}
+    
+ {% endblock %}   
+ 
+{% block aside %}          
+
+    <ul>
+        <li>
+            <a href="{{ path('epreuve_index') }}">{{ "list.link.back"|trans }}</a>
+        </li>
+        {% if delete_form is not null %}
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="{{ "form.btn.delete"|trans({'%content%': epreuve.name }) }}">
+            {{ form_end(delete_form) }}
+        </li>
+        {% endif %}
+    </ul>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+ {% block menu %} {% include 'AdminBundle:Default:menu.html.twig' %} {% endblock %}
+
+ {% block title %}Rarete{% endblock %}
+
+
+{% block body %}
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <input type="submit" value="Create" />
+    {{ form_end(form) }}
+ {% endblock %} 
+ 
+{% block aside %}          
+
+    <ul>
+        <li>
+            <a href="{{ path('rarete_index') }}">{{ "list.link.back"|trans }}</a>
+        </li>
+    </ul>
+{% endblock %}
