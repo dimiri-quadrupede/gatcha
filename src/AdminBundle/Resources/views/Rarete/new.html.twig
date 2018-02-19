@@ -2,7 +2,7 @@
 
  {% block menu %} {% include 'AdminBundle:Default:menu.html.twig' %} {% endblock %}
 
- {% block title %}Rarete{% endblock %}
+  {% block title %}{{ "title.entity.edit"|trans({'%content%': rarete.name }) }} {% endblock %}  
 
 
 {% block body %}
@@ -16,7 +16,7 @@
 
     <ul>
         <li>
-            <a href="{{ path('rarete_index') }}">{{ "list.link.back"|trans }}</a>
+            <a href="{{ path('rarete_index') }}">{{ "link.list.back"|trans }}</a>
         </li>
     </ul>
 {% endblock %}

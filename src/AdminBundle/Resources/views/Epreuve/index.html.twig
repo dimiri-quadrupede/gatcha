@@ -3,7 +3,7 @@
  {% block menu %} {% include 'AdminBundle:Default:menu.html.twig' %} {% endblock %}
 
 
-{% block title %}{{ "title.list.entity"|trans({'entity' : 'Epreuve'}) }} {% endblock %}  
+{% block title %}{{ "title.entity.list"|trans({'entity' : 'Epreuve'}) }} {% endblock %}  
 
 {% block body %}
     <table>
@@ -21,7 +21,7 @@
                 <td><a href="{{ path('epreuve_show', { 'id': epreuve.id }) }}">{{ epreuve.name }}</a></td>
                 <td>{{ epreuve.ranked }}</td>
                 <td>{{ epreuve.id }}</td>
-                <td><a href="{{ path('epreuve_edit', { 'id': epreuve.id }) }}">{{ "list.link.edit"|trans({'%content%': epreuve.name }) }}</a></td>
+                <td><a href="{{ path('epreuve_edit', { 'id': epreuve.id }) }}">{{ "link.list.edit"|trans({'%content%': epreuve.name }) }}</a></td>
             </tr>
         {% endfor %}
         </tbody>
@@ -32,7 +32,7 @@
 
     <ul>
         <li>
-            <a href="{{ path('epreuve_new') }}">{{ "list.link.new"|trans({'%entity%': 'Epreuve'}) }}</a>
+            <a href="{{ path('epreuve_new') }}">{{ "link.list.new"|trans({'%entity%': 'Epreuve'}) }}</a>
         </li>
     </ul>
 {% endblock %}

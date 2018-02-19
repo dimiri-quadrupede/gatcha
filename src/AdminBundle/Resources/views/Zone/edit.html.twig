@@ -2,7 +2,7 @@
 
  {% block menu %} {% include 'AdminBundle:Default:menu.html.twig' %} {% endblock %}
 
- {% block title %}Zone edit{% endblock %}
+  {% block title %}{{ "title.entity.edit"|trans({'%content%': zone.nom }) }} {% endblock %}  
 
 {% block body %}
     {{ form_start(edit_form) }}
@@ -31,7 +31,7 @@
 
     <ul>
         <li>
-            <a href="{{ path('zone_index') }}">{{ "list.link.back"|trans }}</a>
+            <a href="{{ path('zone_index') }}">{{ "link.list.back"|trans }}</a>
         </li>
         {% if delete_form is not null %}
         <li>

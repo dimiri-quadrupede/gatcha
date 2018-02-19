@@ -2,7 +2,7 @@
 
  {% block menu %} {% include 'AdminBundle:Default:menu.html.twig' %} {% endblock %}
  
-{% block title %}{{ "title.list.entity"|trans({'%entity%' : 'Portail'}) }} {% endblock %}  
+{% block title %}{{ "title.entity.list"|trans({'%entity%' : 'Portail'}) }} {% endblock %}  
 
 {% block body %}
     <h1>Portails list</h1>
@@ -20,7 +20,7 @@
             <tr>
                 <td><a href="{{ path('portail_edit', { 'id': portail.id }) }}">{{ portail.id }}</a></td>
                 <td><a href="{{ path('portail_edit', { 'id': portail.id }) }}">{{ portail.name }}</a></td>
-                <td><a href="{{ path('portail_edit', { 'id': portail.id }) }}">{{ "list.link.edit"|trans({'%content%': portail.name }) }}</a></td>
+                <td><a href="{{ path('portail_edit', { 'id': portail.id }) }}">{{ "link.list.edit"|trans({'%content%': portail.name }) }}</a></td>
                 <td>
                 {% if delete_form[x] is defined and delete_form[x] is not null %}    
                         {{ form_start(delete_form[x]) }}
@@ -38,7 +38,7 @@
 
     <ul>
         <li>
-            <a href="{{ path('portail_new') }}">{{ "list.link.new"|trans({'%entity%': 'Portail'}) }}</a>
+            <a href="{{ path('portail_new') }}">{{ "link.list.new"|trans({'%entity%': 'Portail'}) }}</a>
         </li>
     </ul>
 {% endblock %}

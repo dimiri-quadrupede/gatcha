@@ -32,10 +32,10 @@
 
     <ul>
         <li>
-            <a href="{{ path('player_index') }}">{{ "list.link.back"|trans }}</a>
+            <a href="{{ path('player_index') }}">{{ "link.list.back"|trans }}</a>
         </li>
         <li>
-            <a href="{{ path('player_edit', { 'id': player.id }) }}">{{ "list.link.edit"|trans({'%content%': player.username }) }}</a>
+            <a href="{{ path('player_edit', { 'id': player.id }) }}">{{ "link.list.edit"|trans({'%content%': player.username }) }}</a>
         </li>
         <li>
             {{ form_start(delete_form) }}

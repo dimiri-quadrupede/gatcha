@@ -50,9 +50,21 @@ class BoxController extends BaseController {
         
     }
     
-   
+   /**
+    *  @Route("/{id}/train", name="player_box_train")
+	**/
     public function trainningAction(Request $request )
     {
+       $em = $this->getDoctrine()->getManager();
         
+        $boxes = $em->getRepository("GameBundle:PlayerBox")->findBy(array(
+            "player" => $this->getUser()
+        )) ;
+        
+        return $this->render('GameBundle:Box:index.html.twig', array(
+            'boxes' => $boxes,
+            'function' => "check",
+                
+        ));
     }
 }

@@ -23,7 +23,7 @@ use JMS\SecurityExtraBundle\Annotation\Secure;
 /**
  * Description of PersonnageController
  * 
- * @Route("carte")
+ * @Route("personnage")
  * @author lmq-dimitri
  */
 class PersonnageController extends Controller {
@@ -37,11 +37,9 @@ class PersonnageController extends Controller {
      */
     public function showAction(Personnage $personnage)
     {
-        //$deleteForm = $this->createDeleteForm($personnage);
 
         return $this->render('GameBundle:Personnage:show.html.twig', array(
             'personnage' => $personnage,
-            //'delete_form' => $deleteForm->createView(),
         ));
     }
 }

@@ -28,15 +28,22 @@
                 <td>{{ invocation.droped }}</td>
                 <td>{{ personnages|length }}</td>
             </tr>        
-            {% for perso in invocation.personnages %}
+
+			<tr>
+                <th colspan="3">
+				
+						<div class="trombinoscope">
+
+        {% for personnage in invocation.personnages %}
     
-            <tr>
-                <td><a href="">{{ perso.name }}</a></td>
-                <td>{{ perso.id }}</td>
-            </tr>
+                <div class="portrait">
+					<a href="{{ path('game_personnage_show', { 'slug' : personnage.slug } ) }}">{{ personnage.name }}</a><br/>
+				</div>
             
         {% endfor %}   
-        
+						</div>
+				</th>
+			</tr>		
          </tbody>
     </table>
        

@@ -1,6 +1,6 @@
 {% extends 'AppBundle::base.html.twig' %}
 
-{% block title %}{{ 'security.login.title'|trans }}{% endblock %}
+{% block title %}{{ 'title.security.login'|trans }}{% endblock %}
 
 
 {% block body %}
@@ -11,7 +11,7 @@
     <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
 {% endif %}
 
-<form action="{{ path("fos_user_security_check") }}" method="post">
+<form class="security login" action="{{ path("fos_user_security_check") }}" method="post">
     {% if csrf_token %}
         <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
     {% endif %}
@@ -23,8 +23,7 @@
         <label for="password">{{ 'security.login.password'|trans }}</label>
         <input type="password" id="password" name="_password" required="required" />
     </div>
-    <div class="row">
-
+    <div class="row remember_me">
         <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
         <label for="remember_me">{{ 'security.login.remember_me'|trans }}</label>
     </div>

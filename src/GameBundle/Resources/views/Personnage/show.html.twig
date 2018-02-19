@@ -1,20 +1,25 @@
 {% extends 'AppBundle::base.html.twig' %}
 
- {% block menu %} {% include 'GameBundle::menu.html.twig' %} {% endblock %}
+{% block menu %}{% include 'GameBundle::menu.html.twig' %}{% endblock %}
  
- {% block title %} Portail {% endblock %}
-
+{% block title %}{{ personnage.name|upper }}{% endblock %}
  
 {% block body %}
 
-    <table>
+    <table align="center">
         <tbody>
             <tr>
-                <th>Name</th>
-                <td colspan='2'>{{ personnage.name }}</td>
+                <th colspan="2">{{ personnage.name|upper }}</th>
             </tr>
-         </tbody>
+			<tr>
+                <th>Attaque</th>
+                <td>{{ personnage.attaque }}</td>
+            </tr>
+			<tr>
+                <th>Defense</th>
+                <td>{{ personnage.defense }}</td>
+            </tr>
+        </tbody>
     </table>
-       
-
+	
 {% endblock %}

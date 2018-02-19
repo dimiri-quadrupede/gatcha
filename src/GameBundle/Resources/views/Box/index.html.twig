@@ -5,33 +5,33 @@
 {% block title %}Box{% endblock %}
 
 {% block aside %}
-        <a href="{{ path( 'player_box_function', { 'function' : 'entrainement' } ) }}" >entrainement</a><br/> - 
-    <a href="{{ path( 'player_equipes' ) }}" >equipes</a><br/> - 
-
+    <a href="{{ path( 'player_box_function', { 'function' : 'entrainement' } ) }}" >entrainement</a> - 
+    <a href="{{ path( 'player_equipes' ) }}" >equipes</a> - 
+	<br/>
 {% endblock %}
 
 {% block body %}
-    <table>
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Id</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for box in boxes %}
-            <tr>
-                <td>{{ box.id }}</td>
-                <td><a href="">{{ box.personnage.name }}</a></td>
-                <td>{{ box.personnage.id }}</td>
-                <td>
-                    {% if function == "entrainement" %}<a href="">entrainement</a>{% endif %}
-                    {% if function == "select" %}<a href="{{ path('player_team_add',{ 'id' : box.id , 'ranked' : ranked , 'poste': poste }) }}">select</a>{% endif %}
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
 
+	{% if function is defined and function == "check" %}
+		<form class="personnage selection">
+	{% endif %}
+	
+			<div class="trombinoscope">
+        {% for box in boxes %}
+                <div class="portrait">
+					<a href="{{ path('game_personnage_show', { 'slug' : box.personnage.slug } ) }}">{{ box.personnage.name }}</a><br/>
+                    {% if function == "entrainement" %}<a href="{{ path( 'player_box_train', {  'id' : box.id } ) }}">entrainement</a>{% endif %}
+                    {% if function == "select" %}<a href="{{ path('player_team_add',{ 'id' : box.id , 'ranked' : ranked , 'poste': poste }) }}">select</a>{% endif %}
+                    {% if function == "check" %}<input type="checkbox" name="boxes[{{ box.id }}]" value="{{ box.id }}" />{% endif %}
+                </div>
+        {% endfor %}
+			</div>
+
+	{% if function is defined and function == "check" %}
+			<div class="row">
+				<input type="submit"/>
+			</div>
+		</form>
+	{% endif %}
+	
 {% endblock %}

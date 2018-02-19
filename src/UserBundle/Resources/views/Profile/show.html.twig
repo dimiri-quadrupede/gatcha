@@ -1,10 +1,25 @@
 {% extends 'AppBundle::base.html.twig' %}
 
+{% block menu %}{% include 'GameBundle::menu.html.twig' %}{% endblock %}
+
+{% block aside %}
+
+<a href="{{ path('fos_user_profile_edit') }}">{{ 'layout.profile.edit'|trans }}</a><br/>
+<a href="{{ path('fos_user_profile_show') }}">{{ 'layout.show'|trans }}</a><br/>
+<a href="{{ path('fos_user_change_password') }}">{{ 'layout.change'|trans }}</a><br/>
+
+
+{% endblock %}
+
 {% block body %}
+
 {% trans_default_domain 'FOSUserBundle' %}
 
 <div class="fos_user_user_show">
     <p>{{ 'profile.show.username'|trans }}: {{ user.username }}</p>
     <p>{{ 'profile.show.email'|trans }}: {{ user.email }}</p>
 </div>
+
+<!--a href="{{ path('fos_user_profile_edit') }}">{{ 'link.profile.edit'|trans }}</a-->
+
 {% endblock %}

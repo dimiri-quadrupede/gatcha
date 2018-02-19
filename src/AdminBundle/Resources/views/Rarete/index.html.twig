@@ -2,7 +2,7 @@
 
  {% block menu %} {% include 'AdminBundle:Default:menu.html.twig' %} {% endblock %}
 
- {% block title %}{{ "title.list.entity"|trans({'%entity%' : 'Rarete'}) }} {% endblock %}
+ {% block title %}{{ "title.entity.list"|trans({'%entity%' : 'Rarete'}) }} {% endblock %}
 
 {% block body %}
     <table>
@@ -22,7 +22,7 @@
                 <td><a href="{{ path('rarete_edit', { 'id': rarete.id }) }}">{{ rarete.nom }}</a></td>
                 <td><a href="{{ path('rarete_edit', { 'id': rarete.id }) }}">{{ rarete.code }}</a></td>
                 <td><a href="{{ path('rarete_edit', { 'id': rarete.id }) }}">{{ rarete.ranked }}</a></td>
-                <td><a href="{{ path('rarete_edit', { 'id': rarete.id }) }}">{{ "list.link.edit"|trans({'%content%': rarete.nom }) }}</a></td>
+                <td><a href="{{ path('rarete_edit', { 'id': rarete.id }) }}">{{ "link.list.edit"|trans({'%content%': rarete.nom }) }}</a></td>
                 <td>
                 {% if delete_form[x] is defined and delete_form[x] is not null %}    
                         {{ form_start(delete_form[x]) }}
@@ -39,7 +39,7 @@
 
     <ul>
         <li>
-            <a href="{{ path('rarete_new') }}">{{ "list.link.new"|trans({'%entity%': 'Rarete'}) }}</a>
+            <a href="{{ path('rarete_new') }}">{{ "link.list.new"|trans({'%entity%': 'Rarete'}) }}</a>
         </li>
     </ul>
 {% endblock %}

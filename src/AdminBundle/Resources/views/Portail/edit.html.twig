@@ -2,7 +2,7 @@
 
  {% block menu %} {% include 'AdminBundle:Default:menu.html.twig' %} {% endblock %}
 
- {% block title %}{{ "title.edit.entity"|trans({'%content%': portail.name }) }} {% endblock %}  
+ {% block title %}{{ "title.entity.edit"|trans({'%content%': portail.name }) }} {% endblock %}  
 
 {% block body %}
     {{ form_start(edit_form) }}
@@ -15,7 +15,7 @@
 
     <ul>
         <li>
-            <a href="{{ path('portail_index') }}">{{ "list.link.back"|trans }}</a>
+            <a href="{{ path('portail_index') }}">{{ "link.list.back"|trans }}</a>
         </li>
     {% if delete_form is not null %}    
         <li>
