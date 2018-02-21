@@ -28,9 +28,9 @@ class UploadableFileType extends AbstractType
         
         $builder
             ->add('file', FileType::class , $args)
-            ->add('type', HiddenType::class, array('data' => $this->type))
-            ->add('name', HiddenType::class, array('required' => false))
-            ->add("id" ,  HiddenType::class , array() )
+            //->add('type', HiddenType::class, array('data' => $this->type))
+            //->add('name', HiddenType::class, array('required' => false))
+            //->add("id" ,  HiddenType::class , array() )
                 /**->add('path')
                 ->add('mimeType')
                 ->add('size')

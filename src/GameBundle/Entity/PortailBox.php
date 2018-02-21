@@ -97,6 +97,10 @@ class PortailBox
     private $deletedAt;
 
 
+    public function __toString() {
+        
+        return $this->getPersonnage() ;
+    }
 
     /**
      * Set dropRate

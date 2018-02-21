@@ -13,15 +13,23 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use Symfony\Component\HttpFoundation\Request;
 
-use JMS\SecurityExtraBundle\Annotation\Secure;
+use AppBundle\Controller\BaseController;
 
+use JMS\SecurityExtraBundle\Annotation\Secure;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use AppBundle\Entity\UploadableFile;
+
+use AppBundle\Service\FileUploader;
+
+use Doctrine\ORM\EntityManager ;
 /**
  * Personnage controller.
  *
  * @Route("personnage")
  */
-class PersonnageController extends Controller
+class PersonnageController extends BaseController
 {
+   
     /**
      * Lists all personnage entities.
      * @Secure(roles="ROLE_ADMIN_PERSONNAGE_LIST")
@@ -41,7 +49,7 @@ class PersonnageController extends Controller
             'personnages' => $personnages,
             'delete_form' => $deleteForm
         ));
-    }
+    }  
     
      /**
      * Creates a new personnage entity.
@@ -51,6 +59,8 @@ class PersonnageController extends Controller
      * @Route("/{slug}/edit", name="personnage_edit")
      * @Method({"GET","POST"})
      * @Template()
+      * 
+      *  FileUploader $fileUploader,
      */
     public function editionAction(Request $request = null, Personnage $personnage = null)
     {
@@ -75,6 +85,15 @@ class PersonnageController extends Controller
             if ($form->isSubmitted() && $form->isValid()) 
             {
                 $em = $this->getDoctrine()->getManager();
+                
+                $icon = $personnage->getIcon() ;
+                $card = $personnage->getCard() ;
+                
+                $this->saveImg($em, $icon);
+                $this->saveImg($em, $card);
+                
+
+                
                 $em->persist($personnage);
                 $em->flush();
 

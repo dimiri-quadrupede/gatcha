@@ -19,7 +19,8 @@
 			<div class="trombinoscope">
         {% for box in boxes %}
                 <div class="portrait">
-					<a href="{{ path('game_personnage_show', { 'slug' : box.personnage.slug } ) }}">{{ box.personnage.name }}</a><br/>
+                    {% if box.personnage.icon is not null %}<img src="/uploads/icon/{{ box.personnage.icon.name }}" />{% endif %}		
+                    <a href="{{ path('game_personnage_show', { 'slug' : box.personnage.slug } ) }}">{{ box.personnage.name }}</a><br/>
                     {% if function == "entrainement" %}<a href="{{ path( 'player_box_train', {  'id' : box.id } ) }}">entrainement</a>{% endif %}
                     {% if function == "select" %}<a href="{{ path('player_team_add',{ 'id' : box.id , 'ranked' : ranked , 'poste': poste }) }}">select</a>{% endif %}
                     {% if function == "check" %}<input type="checkbox" name="boxes[{{ box.id }}]" value="{{ box.id }}" />{% endif %}

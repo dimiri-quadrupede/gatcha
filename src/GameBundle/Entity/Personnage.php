@@ -3,9 +3,10 @@
 namespace GameBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
-
+use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
+
+use Doctrine\Common\Collections\ArrayCollection;
 
 use AppBundle\Entity\Player;
 use AppBundle\Entity\UploadableFile;
@@ -86,11 +87,19 @@ class Personnage
     /**
      * @var UploadableFile
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\UploadableFile")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\UploadableFile", cascade={"persist"} )
      * @Gedmo\Versioned
      */
     private $icon;
 
+     /**
+     * @var UploadableFile
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\UploadableFile", cascade={"persist"} )
+     * @Gedmo\Versioned
+     */
+    private $card;
+   
     /**
      * @var \DateTime $createdAt
      *
@@ -552,10 +561,34 @@ class Personnage
 	 * Get icon URL
 	 *
 	 * @return string
-	 */
     public function getIconURL()
     {
         return $this->icon === null ? null : $this->icon->getURL();
     }
+	 */
     
+
+    /**
+     * Set card
+     *
+     * @param \AppBundle\Entity\UploadableFile $card
+     *
+     * @return Personnage
+     */
+    public function setCard(\AppBundle\Entity\UploadableFile $card = null)
+    {
+        $this->card = $card;
+
+        return $this;
+    }
+
+    /**
+     * Get card
+     *
+     * @return \AppBundle\Entity\UploadableFile
+     */
+    public function getCard()
+    {
+        return $this->card;
+    }
 }

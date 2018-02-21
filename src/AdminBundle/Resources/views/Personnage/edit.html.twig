@@ -2,7 +2,7 @@
 
  {% block menu %} {% include 'AdminBundle:Default:menu.html.twig' %} {% endblock %}
 
-  {% block title %}{{ "title.entity.edit"|trans({'%content%': personnage.name }) }} {% endblock %}  
+  {% block title %}{{ personnage.id is not null ? "title.entity.edit"|trans({'%content%': personnage.name }) : "title.entity.add"|trans({'%entity%': 'Personnage' }) }} {% endblock %}  
 
 {% block body %}
     {{ form_start(form) }}
@@ -13,6 +13,9 @@
  
 {% block aside %}          
 
+    {% if personnage.id is not null and personnage.icon is not null %}
+        <img src="/uploads/icon/{{ personnage.icon.name }}"/>
+    {% endif %}
     <ul>
         <li>
             <a href="{{ path('personnage_index') }}">{{ "link.list.back"|trans }}</a>

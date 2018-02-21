@@ -5,9 +5,11 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * @ORM\Entity()
+ * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="uploaded_file")
  * @Gedmo\Uploadable(maxSize=50000000, allowedTypes="image/png,application/zip,image/jpg,image/jpeg", allowOverwrite=false, appendNumber=true)
  * @Gedmo\Loggable
@@ -15,42 +17,30 @@ use Symfony\Component\Validator\Constraints as Assert;
 class UploadableFile
 {
     /*
-     * @Assert\File(maxSize="60000000")
+     * @ORM\Column(name="filename", type="string")
+     * 
+     * @Assert\NotBlank(message="Please, upload the product brochure as a PDF file.")
+     * @Assert\File(maxSize="60000000" , mimeTypes={ "image/png","image/jpg","image/gif" })
      */
     private $file;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
+     */
+    public $name;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    public $path;
+    
     /**
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
-
-    /**
-     * @ORM\Column(name="path", type="string")
-     * @Gedmo\UploadableFilePath
-     * 
-     */
-    private $path;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true )
-     * @Assert\NotBlank
-     */
-    private $name;
-
-    /**
-     * @ORM\Column(name="mime_type", type="string")
-     * @Gedmo\UploadableFileMimeType
-     * @Assert\NotBlank
-     */
-    private $mimeType;
-
-    /**
-     * @ORM\Column(name="size", type="decimal")
-     * @Gedmo\UploadableFileSize
-     */
-    private $size;
 
     /**
      * @var \DateTime
@@ -84,34 +74,13 @@ class UploadableFile
      */
     private $updatedBy;
 
+    /**
+     * 
+     * @return type
+     */
     public function getId()
     {
             return $this->id;
-    }
-
-    public function getPath()
-    {
-            return $this->path;
-    }
-
-    public function getMimeType()
-    {
-            return $this->mimeType;
-    }
-
-    public function getSize()
-    {
-            return $this->size;
-    }
-
-    /**
-     * Get URL of file
-     *
-     * @return string
-     */
-    public function getURL()
-    {
-            return $this->path === null ? null : '/' . $this->getPath();
     }
 
     /**
@@ -154,48 +123,13 @@ class UploadableFile
             return $this->updatedBy;
     }
 
+    /**
+     * 
+     * @return type
+     */
     public function __toString()
     {
-            return basename($this->path);
-    }
-
-    /**
-     * Set path
-     *
-     * @param string $path
-     * @return UploadableFile
-     */
-    public function setPath($path)
-    {
-        $this->path = $path;
-    
-        return $this;
-    }
-
-    /**
-     * Set mimeType
-     *
-     * @param string $mimeType
-     * @return UploadableFile
-     */
-    public function setMimeType($mimeType)
-    {
-        $this->mimeType = $mimeType;
-    
-        return $this;
-    }
-
-    /**
-     * Set size
-     *
-     * @param string $size
-     * @return UploadableFile
-     */
-    public function setSize($size)
-    {
-        $this->size = $size;
-    
-        return $this;
+            return $this->getFile();//basename($this->path);
     }
 
     /**
@@ -204,7 +138,7 @@ class UploadableFile
      * @param \DateTime $createdAt
      * @return UploadableFile
      */
-    public function setCreatedAt($createdAt)
+    public function setCreatedAt(\DateTime $createdAt)
     {
         $this->createdAt = $createdAt;
     
@@ -217,7 +151,7 @@ class UploadableFile
      * @param \DateTime $updatedAt
      * @return UploadableFile
      */
-    public function setUpdatedAt($updatedAt)
+    public function setUpdatedAt(\DateTime $updatedAt)
     {
         $this->updatedAt = $updatedAt;
     
@@ -250,252 +184,163 @@ class UploadableFile
         return $this;
     }
     
-    
-    public function upload() {
-        
-        error_log("File->upload -> init ");
-        
-        if(is_null($this->file)) 
-        {
-            error_log("File->upload -> is null ");
-            return false ;
-        }
- 
-        error_log("File->upload -> not null ");
+    /**
+     * Set name
+     *
+     * @param string $name
+     *
+     * @return UploadableFile
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
 
-        $this->path = $this->file->getClientOriginalName();
-        $extension = preg_replace('#^.*(\.[a-z0-9]+)$#', '$1', $this->path);
-        $this->path = str_replace($extension,time().$extension, $this->path);
-        $this->name = $this->path;
-        
-        error_log("File->upload -> ".$this->name);
-        
-        if($this->makeDir())
-        {
-            $this->file->move($this->getUploadRootDir(), $this->name);
-        
-            if ($this->type === 'picture') 
-            {
-                error_log("File->upload -> picture ");
+        return $this;
+    }
 
-                if(file_exists($this->getUploadRootDir().'/'.$this->name))
-                {
-                    $origin = new Image($this->getUploadRootDir().'/'.$this->name);
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
 
-                    if($this->makeDir("/big/"))
-                    {
-                        $Big = clone $origin ; //new Image($this->getUploadRootDir().'/'.$this->name);
-                        $Big->resize(800, 800);
-                        $Big->create($this->getUploadRootDir().'/big/'.$this->name, 100);
-                    }
+    /**
+     * Set path
+     *
+     * @param string $path
+     *
+     * @return UploadableFile
+     */
+    public function setPath($path)
+    {
+        $this->path = $path;
 
-                    if($this->makeDir("/medium/"))
-                    {
-                        $Medium = clone $origin ; //new Image($this->getUploadRootDir().'/'.$this->name);
-                        $Medium->resize(500, 500);
-                        $Medium->create($this->getUploadRootDir().'/medium/'.$this->name, 100);
-                    }
+        return $this;
+    }
 
-                    if($this->makeDir("/small/"))
-                    {
-                        $Small = clone $origin ; //new Image($this->getUploadRootDir().'/'.$this->name);
-                        $Small->resize(200, 200);
-                        $Small->create($this->getUploadRootDir().'/small/'.$this->name, 100);
-                    }
-
-                    if($this->makeDir("/vignette/"))
-                    {
-                        $Vignette = clone $origin ; //new Image($this->getUploadRootDir().'/'.$this->name);
-                        $Vignette->resize(75, 75);
-                        $Vignette->create($this->getUploadRootDir().'/vignette/'.$this->name, 100);
-                    }
-                }
-                else 
-                {
-                    error_log("original image does'nt exist...");
-                }
-            }
-            
-            error_log("File->upload ->test ". $this->getUploadRootDir().'/'.$this->name );
-
-            if(file_exists($this->getUploadRootDir().'/'.$this->name))
-            {
-                return true ;
-            }
-            else 
-            {
-                error_log("File->upload -> file does'nt exist...");
-            }
-        }
-        return false ;
-        
-      /**  
-        error_log("File->upload -> clear ");
-        
-        $this->file = null;**/
+    /**
+     * Get path
+     *
+     * @return string
+     */
+    public function getPath()
+    {
+        return $this->path;
     }
     
-    
-    function __construct() {
-        
-        error_log("Cetelem/entity/file(".$this->getId().")->construct()");
-        $this->file = null ;
+    public function getFile()
+    {
+        return $this->file;
     }
-    
+
+    public function setFile(UploadedFile $brochure = null)
+    {
+        $this->file = $brochure;
+        
+        if (isset($this->path)) {
+            // store the old name to delete after the update
+            $this->temp = $this->path;
+            $this->path = null;
+        } else {
+            $this->path = 'initial';
+        }
+        
+        return $this;
+    }
+}
+
+class falseUpload
+{
     public function getAbsolutePath()
     {
-        return null === $this->name ? null : $this->getUploadRootDir().'/'.$this->name;
+        return null === $this->path
+            ? null
+            : $this->getUploadRootDir().'/'.$this->path;
     }
 
-    public function confirmWebPath($type = '')
+    public function getWebPath()
     {
-        if ($type == '') {
-            $folder = '/';
-        } else {
-            $folder = "/$type/";
-        }
-        
-        $uploadRootDir = $this->getUploadRootDir();
-        $uploadRootDir = str_replace("\\", "/", $uploadRootDir);
-        
-        $final_path = $uploadRootDir.$folder.$this->name ;
-        $final_path = str_replace("//", "/", $final_path);
-        
-        error_log("file->confirmWebPath::".$final_path);
-        
-        if(file_exists($final_path))
-            return true ;
-
-        //if(file_exists($this->getAbsolutePath()))
-        //    return true ;
-
-        return false ;
-    }
-    
-    public function getWebPath($type = '')
-    {
-        if ($type == '') {
-            $folder = '/';
-        } else {
-            $folder = "/$type/";
-        }
-        
-        $uploadDir = $this->getUploadDir();
-        $uploadDir = str_replace("\\", "/", $uploadDir);
-        
-        $final_path = $uploadDir.$folder.$this->name ;
-        $final_path = str_replace("//", "/", $final_path);
-        
-        error_log("file->getWebPath::".'/'.$final_path);
-        
-        if($this->confirmWebPath($type))
-            return null === $this->name ? null : '/'.$final_path;
-        
-        return null ;
+        return null === $this->path
+            ? null
+            : $this->getUploadDir().'/'.$this->path;
     }
 
     protected function getUploadRootDir()
     {
-        // le chemin absolu du répertoire où les documents uploadés doivent être sauvegardés
-        $uploadRootDir = realpath(__DIR__.'/../../../web').'/'.$this->getUploadDir();
-        $uploadRootDir = str_replace("\\", "/", $uploadRootDir);
-       
-        error_log("file->getUploadRootDir::".$uploadRootDir);
-        
-        return $uploadRootDir;
+        // the absolute directory path where uploaded
+        // documents should be saved
+        return __DIR__.'/../../../../web/'.$this->getUploadDir();
     }
 
     protected function getUploadDir()
     {
-        // on se débarrasse de « __DIR__ » afin de ne pas avoir de problème lorsqu'on affiche
-        // le document/image dans la vue.
-        $uploadDir = 'uploads/'.$this->type."/";
-        
-        error_log("file->getUploadDir::".$uploadDir);
-        
-        return $uploadDir;
+        // get rid of the __DIR__ so it doesn't screw up
+        // when displaying uploaded doc/image in the view.
+        return 'uploads/documents';
     }
     
-
-    private function makeDir($dir = "/")
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function preUpload()
     {
-        error_log("file->makeDir...");
-        
-        if(!file_exists($this->getUploadRootDir()) || !is_dir($this->getUploadRootDir()))
-        {
-            if(!mkdir($this->getUploadRootDir(),0777,true))
-            {
-                return false;
-            }
-            else
-            {
-                error_log($this->getUploadRootDir()." a été créé ...");
-            }
+        if (null !== $this->getFile()) {
+            // do whatever you want to generate a unique name
+            $filename = sha1(uniqid(mt_rand(), true));
+            $this->path = $filename.'.'.$this->getFile()->guessExtension();
         }
-        else
-        {
-            error_log($this->getUploadRootDir()." existe et est bien un répertoire");
-            if(is_writable($this->getUploadRootDir()))
-            {
-                if(!chmod($this->getUploadRootDir(), 0777))
-                {
-                    return false ;
-                }
-                else
-                {
-                    error_log($this->getUploadRootDir()." a été ouvert à l'ecriture ...");
-                }
-            }
-            else
-            {
-                error_log($this->getUploadRootDir()." est ouvert en ecriture");
-            }
-                
-        }
-        
-        if(file_exists($this->getUploadRootDir()))
-        {
-            if(is_writable($this->getUploadRootDir()))
-            {
-                $realpath = ($this->getUploadRootDir().$dir);
-                
-                if(!file_exists($realpath) || !is_dir($realpath))
-                {
-                    if(!mkdir($realpath,0777,true))
-                    {
-                           return false;
-                    }
-                    else
-                    {
-                        error_log("'$dir' a été créé ...");
-                    }
-                }
-                else
-                {
-                    error_log("'$dir' existe et est bien un répertoire");
-                }
-                
-                if(!is_writable($realpath))
-                {
-                    if(!chmod($realpath, 0777))
-                    {
-                            return false ;
-                    }
-                    else
-                    {
-                        error_log("'$dir' a été ouvert à l'ecriture ...");
-                    }
-                }
-                else
-                {
-                    error_log("'$dir' est ouvert en ecriture");
-                }
-                return true;
-            }
-            
-        }
-        
-        return false;
     }
-    
+
+    /**
+     * @ORM\PostPersist()
+     * @ORM\PostUpdate()
+     */
+    public function upload()
+    {
+        if (null === $this->getFile()) {
+            return;
+        }
+
+        // check if we have an old image
+        if (isset($this->temp)) {
+            // delete the old image
+            unlink($this->temp);
+            // clear the temp image path
+            $this->temp = null;
+        }
+
+        // you must throw an exception here if the file cannot be moved
+        // so that the entity is not persisted to the database
+        // which the UploadedFile move() method does
+        $this->getFile()->move(
+            $this->getUploadRootDir(),
+            $this->id.'.'.$this->getFile()->guessExtension()
+        );
+
+        $this->setFile(null);
+    }
+
+    /**
+     * @ORM\PreRemove()
+     */
+    public function storeFilenameForRemove()
+    {
+        $this->temp = $this->getAbsolutePath();
+    }
+
+    /**
+     * @ORM\PostRemove()
+     */
+    public function removeUpload()
+    {
+        if (isset($this->temp)) {
+            unlink($this->temp);
+        }
+    }
+
 }

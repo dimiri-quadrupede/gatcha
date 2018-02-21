@@ -1,11 +1,16 @@
 {% extends 'AppBundle::base.html.twig' %}
 
-{% block body %}
-    <h1>Portails list</h1>
+{% block title %}Equipe list{% endblock %}
+{% block menu %}{% include 'GameBundle::menu.html.twig' %}{% endblock %}
+
+{% block aside %}
 
     <a href="{{ path( 'player_box_function', { 'function' : 'entrainement' } ) }}" >entrainement</a>
     <a href="{{ path( 'player_equipes' ) }}" >equipes</a> - 
-    <br/>
+    
+{% endblock %}
+
+{% block body %}
     
     <table>
         <thead>

@@ -88,14 +88,15 @@ class TeamController extends Controller {
         
          $membs = array();
         
-        foreach ($eqs as $equipe)
-            $membs[$equipe->getRanked()] = $equipe ;
+        foreach ($eqs as $x =>$equipe)
+            $membs[] = $equipe ;
         
         
         return $this->render('GameBundle:Team:show.html.twig', array(
             'team' => $equipe ,
             'members' => $membs ,
-            'max_team' => GameBundle::$max_team_in
+            'max_team' => GameBundle::$max_team_in,
+            'ranked' =>$ranked ,
         ));
     }
     
@@ -145,6 +146,9 @@ class TeamController extends Controller {
         $em->persist($box);
         $em->flush();
         
+        return $this->redirectToRoute('player_team', array('ranked' => $ranked ));
+
+ /**       
         $eqs = $em->getRepository("GameBundle:PlayerBox")->findBy(array(
             "player" => $this->getUser() , "equipe" => $equipe
         )) ;
@@ -162,6 +166,6 @@ class TeamController extends Controller {
             'poste' => $poste ,
             'ranked' =>$ranked ,
         ));
-
+**/
     }
 }

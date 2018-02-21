@@ -1,11 +1,16 @@
 {% extends 'AppBundle::base.html.twig' %}
 
-{% block body %}
-    <h1>Portails list</h1>
+{% block title %}Equipe{% endblock %}
+{% block menu %}{% include 'GameBundle::menu.html.twig' %}{% endblock %}
 
-    <a href="{{ path( 'player_box_function', { 'function' : 'entrainement' } ) }}" >entrainement</a> - 
+{% block aside %}
+
+    <a href="{{ path( 'player_box_function', { 'function' : 'entrainement' } ) }}" >entrainement</a>
     <a href="{{ path( 'player_equipes' ) }}" >equipes</a> - 
+    
+{% endblock %}
 
+{% block body %}
     <table>
         <thead>
             <tr>
@@ -18,12 +23,13 @@
 {% for i in 1..max_team %}
             {% if members[i] is defined %}
                 <tr>
-                    <td><a href="{{ path( 'player_team_select', { 'poste' : i, 'ranked' : team.ranked  } ) }}">add</a></td>
-                    <td>{{ members[i].ranked }}</td>
+                    <td><a href="{{ path( 'player_team_select', {  'ranked' : ranked , 'poste' : i } ) }}">add</a></td>
+                    <td>{#{ members[i].ranked }#}</td>
+                    <td>{{ members[i].personnage.name }}</td>
                 </tr>
             {% else %}
                 <tr>
-                    <td><a href="{{ path( 'player_team_select', { 'poste' : i , 'ranked' : team.ranked } ) }}">add</a></td>
+                    <td><a href="{{ path( 'player_team_select', { 'ranked' : ranked , 'poste' : i  } ) }}">add</a></td>
                 </tr>
             {% endif %}
         {% endfor %}

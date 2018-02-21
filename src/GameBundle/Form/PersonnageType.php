@@ -5,6 +5,7 @@ namespace GameBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 use AppBundle\Form\UploadableFileType;
 
@@ -23,7 +24,8 @@ class PersonnageType extends AbstractType
                 ->add('vie')
                 ->add('rarete')
                 ->add('evolution')
-                ->add('icon', UploadableFileType::class , array('required' => false, 'label' => false))
+                ->add('icon', UploadableFileType::class , array('required' => false, 'label' => 'icon' ))
+                ->add('card', UploadableFileType::class , array('required' => false, 'label' => 'card' ))
 
                 ;
     }/**
